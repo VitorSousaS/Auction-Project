@@ -1,13 +1,13 @@
 CREATE TABLE lote (
-    id SERIAL,
-    numeroLote INTEGER,
-    descricao VARCHAR(60),
-    quantidade NUMERIC,
-    valorInicial NUMERIC,
-    unidade VARCHAR(128),
-    leilao INTEGER,
-    createdAt TIMESTAMP,
-    updatedAt TIMESTAMP
+	id SERIAL,
+	numeroLote INTEGER,
+	descricao VARCHAR(60),
+	quantidade NUMERIC,
+	valorInicial NUMERIC,
+	unidade VARCHAR(128),
+	leilao INTEGER,
+	createdAt TIMESTAMP,
+	updatedAt TIMESTAMP
 );
 
 

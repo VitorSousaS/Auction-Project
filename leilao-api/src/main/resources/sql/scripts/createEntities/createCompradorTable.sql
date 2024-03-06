@@ -1,6 +1,6 @@
 CREATE TABLE comprador (
-    empresa INTEGER,
-    leilao INTEGER
+	empresa INTEGER,
+	leilao INTEGER
 );
 
 ALTER TABLE comprador ADD CONSTRAINT empresa_comp_fk FOREIGN KEY (empresa) REFERENCES empresa(id);

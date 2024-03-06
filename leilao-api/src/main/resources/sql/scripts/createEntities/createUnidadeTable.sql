@@ -1,9 +1,9 @@
 CREATE TABLE unidade (
-    id SERIAL,
-    numeroLote INTEGER,
-		nome VARCHAR(128),
-		createdAt TIMESTAMP,
-		updatedAt TIMESTAMP
+	id SERIAL,
+	numeroLote INTEGER,
+	nome VARCHAR(128),
+	createdAt TIMESTAMP,
+	updatedAt TIMESTAMP
 );
 
 

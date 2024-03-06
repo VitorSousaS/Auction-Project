@@ -1,11 +1,11 @@
 CREATE TABLE leilao (
-    id SERIAL,
-    codigo INTEGER,
-    descricao VARCHAR(60),
-    vendedor INTEGER,
-    inicioPrevisto TIMESTAMP,
-    createdAt TIMESTAMP,
-    updatedAt TIMESTAMP
+	id SERIAL,
+	codigo INTEGER,
+	descricao VARCHAR(60),
+	vendedor INTEGER,
+	inicioPrevisto TIMESTAMP,
+	createdAt TIMESTAMP,
+	updatedAt TIMESTAMP
 );
 
 ALTER TABLE leilao ADD CONSTRAINT leilao_pk PRIMARY KEY (id);

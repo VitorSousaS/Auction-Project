@@ -1,6 +1,6 @@
 CREATE TABLE empresa (
     id SERIAL,
-    razaoSocial VARCHAR(32),
+    razaoSocial VARCHAR(64),
     cnpj VARCHAR(32),
     logradouro VARCHAR(64),
     municipio VARCHAR(64),
