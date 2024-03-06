@@ -1,0 +1,18 @@
+CREATE TABLE unidade (
+    id SERIAL,
+    numeroLote INTEGER,
+		nome VARCHAR(128),
+		createdAt TIMESTAMP,
+		updatedAt TIMESTAMP
+);
+
+
+ALTER TABLE unidade ADD CONSTRAINT unidade_pk PRIMARY KEY (id);
+
+ALTER TABLE unidade ALTER COLUMN id SET DEFAULT NEXTVAL('unidade_id_seq');
+
+ALTER TABLE unidade ALTER COLUMN nome SET NOT NULL;
+
+ALTER TABLE unidade ALTER COLUMN createdAt SET NOT NULL;
+
+ALTER TABLE unidade ALTER COLUMN updatedAt SET NOT NULL;
