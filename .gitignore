@@ -51,5 +51,8 @@ leilao-api/build/
 
 ### VS Code ###
 leilao-api/.vscode/
+.vscode/
 
+
+test.rest
 package-lock.json

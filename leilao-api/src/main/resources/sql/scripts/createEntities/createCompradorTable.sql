@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS comprador CASCADE;
+
 CREATE TABLE comprador (
 	empresa INTEGER,
 	leilao INTEGER

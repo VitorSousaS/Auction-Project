@@ -1,5 +1,9 @@
+DROP TABLE IF EXISTS empresa CASCADE;
+DROP SEQUENCE IF EXISTS seq_empresa;
+
+CREATE SEQUENCE seq_empresa INCREMENT 1 MINVALUE 1 MAXVALUE 9999999 START 1 CACHE 1;
 CREATE TABLE empresa (
-    id SERIAL,
+    id INTEGER,
     razaoSocial VARCHAR(64),
     cnpj VARCHAR(32),
     logradouro VARCHAR(64),
@@ -20,8 +24,6 @@ CREATE TABLE empresa (
 -----------------------------------------------------------------------------------
 
 ALTER TABLE empresa ADD CONSTRAINT empresa_pk PRIMARY KEY (id);
-
-ALTER TABLE empresa ALTER COLUMN id SET DEFAULT NEXTVAL('empresa_id_seq');
 
 ALTER TABLE empresa ALTER COLUMN razaoSocial SET NOT NULL;
 
