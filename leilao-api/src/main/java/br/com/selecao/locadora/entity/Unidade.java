@@ -11,17 +11,19 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+// import javax.persistence.PrePersist;
+// import javax.persistence.PreUpdate;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.io.Serializable;
-
+import java.time.LocalDate;
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 @Entity
-@Table(name = "TB_UNIDADE")
+@Table(name = "unidade")
 @SequenceGenerator(name = "seq_unidade", sequenceName = "seq_unidade", allocationSize = 1)
 public class Unidade implements Serializable {
 
@@ -31,7 +33,25 @@ public class Unidade implements Serializable {
     @EqualsAndHashCode.Include
     private Long id;
 
-    @Column(name = "NOME")
+    @Column(name = "nome", length = 128)
     private String nome;
-}
 
+		@Column(name = "numerolote")
+		private Integer numeroLote;
+
+		@Column(name = "createdat", nullable = false, updatable = false)
+		private LocalDate createdAt;
+
+		@Column(name = "updatedat")
+		private LocalDate updatedAt;
+
+		// @PrePersist
+    // protected void onCreate() {
+    //     this.createdAt = LocalDateTime.now();
+    // }
+
+    // @PreUpdate
+    // protected void onUpdate() {
+    //     this.updatedAt = LocalDateTime.now();
+    // }
+}
