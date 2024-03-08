@@ -54,7 +54,6 @@ public class UnidadeService {
 	@PutMapping("/{id}")
 	public ResponseEntity<Object> atualizarUnidade(@RequestBody Unidade
 	novaUnidade, @PathVariable Long id) {		
-		return new ResponseEntity<>(unidadeBO.atualizarUnidade(novaUnidade), HttpStatus.OK);
-
+		return new ResponseEntity<>(unidadeBO.atualizarUnidade(novaUnidade, id), HttpStatus.OK);
 	};
 }

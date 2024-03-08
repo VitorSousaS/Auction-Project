@@ -6,6 +6,7 @@ import br.com.selecao.locadora.repository.UnidadeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +21,8 @@ public class UnidadeBO {
 	}
 
 	public Unidade salvarUnidade(Unidade unidade) {
+		unidade.setCreatedAt(LocalDate.now());
+		unidade.setUpdatedAt(LocalDate.now());
 		return unidadeRepository.save(unidade);
 	}
 
@@ -35,8 +38,26 @@ public class UnidadeBO {
 			throw new ExessaoConteudoNaoEncontrado("Unidade não encontrada com o ID: " + id);
 		}
 	}
-	
-	public Unidade atualizarUnidade(Unidade novUnidade) {
-		return null;
+
+	public Unidade atualizarUnidade(Unidade novaUnidade, Long id) {
+		Optional<Unidade> unidadeOptional = unidadeRepository.findById(id);
+
+		if (unidadeOptional.isPresent()) {
+			Unidade unidadeExistente = unidadeOptional.get();
+
+			if (novaUnidade.getNome() != null) {
+				unidadeExistente.setNome(novaUnidade.getNome());
+			}
+			
+			if (novaUnidade.getNumeroLote() != null) {
+				unidadeExistente.setNumeroLote(novaUnidade.getNumeroLote());
+			}
+			unidadeExistente.setUpdatedAt(LocalDate.now());
+			
+			return unidadeRepository.save(unidadeExistente);
+
+		} else {
+			throw new ExessaoConteudoNaoEncontrado("Unidade não encontrada com o ID: " + id);
+		}
 	}
 }

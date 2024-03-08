@@ -44,14 +44,4 @@ public class Unidade implements Serializable {
 
 		@Column(name = "updatedat")
 		private LocalDate updatedAt;
-
-		// @PrePersist
-    // protected void onCreate() {
-    //     this.createdAt = LocalDateTime.now();
-    // }
-
-    // @PreUpdate
-    // protected void onUpdate() {
-    //     this.updatedAt = LocalDateTime.now();
-    // }
 }
