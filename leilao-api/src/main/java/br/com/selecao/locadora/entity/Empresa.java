@@ -75,4 +75,8 @@ public class Empresa implements Serializable {
 
 	@Column(name = "updatedat", nullable = false)
 	private LocalDateTime updatedAt;
+
+	public Empresa(Long id) {
+		this.id = id;
+	}
 }
