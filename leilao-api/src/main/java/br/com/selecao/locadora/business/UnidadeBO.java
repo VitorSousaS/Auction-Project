@@ -6,7 +6,7 @@ import br.com.selecao.locadora.repository.UnidadeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,8 +21,8 @@ public class UnidadeBO {
 	}
 
 	public Unidade salvarUnidade(Unidade unidade) {
-		unidade.setCreatedAt(LocalDate.now());
-		unidade.setUpdatedAt(LocalDate.now());
+		unidade.setCreatedAt(LocalDateTime.now());
+		unidade.setUpdatedAt(LocalDateTime.now());
 		return unidadeRepository.save(unidade);
 	}
 
@@ -49,10 +49,7 @@ public class UnidadeBO {
 				unidadeExistente.setNome(novaUnidade.getNome());
 			}
 			
-			if (novaUnidade.getNumeroLote() != null) {
-				unidadeExistente.setNumeroLote(novaUnidade.getNumeroLote());
-			}
-			unidadeExistente.setUpdatedAt(LocalDate.now());
+			unidadeExistente.setUpdatedAt(LocalDateTime.now());
 			
 			return unidadeRepository.save(unidadeExistente);
 
