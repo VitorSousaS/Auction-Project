@@ -50,9 +50,7 @@ leilao-api/.nb-gradle/
 leilao-api/build/
 
 ### VS Code ###
-leilao-api/.vscode/
 .vscode/
 
-
-test.rest
+restTests/*
 package-lock.json
