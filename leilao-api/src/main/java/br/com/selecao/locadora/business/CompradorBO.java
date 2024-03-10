@@ -13,6 +13,7 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 @Service
+@Transactional
 public class CompradorBO {
 
 	@Autowired
@@ -30,7 +31,6 @@ public class CompradorBO {
 		return compradorRepository.findByIdLeilaoId(leilaoId);
 	}
 
-	@Transactional
 	public void deletarCompradorPorLeilaoId(Long leilaoId) {
 		Optional<Comprador> compradorOptional = compradorRepository.findByIdLeilaoId(leilaoId);
 		if (compradorOptional.isPresent()) {
