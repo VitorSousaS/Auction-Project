@@ -9,6 +9,7 @@
 		@click="handleButtonClick"
 		type="type"
 		:class="classe"
+		:hidden="hidden"
 	>
 		<v-icon>{{ icon }}</v-icon>
 		{{ phrase }}
@@ -29,6 +30,7 @@
 			'color',
 			'type',
 			'classe',
+			'hidden'
 		],
 		methods: {
 			handleButtonClick() {
