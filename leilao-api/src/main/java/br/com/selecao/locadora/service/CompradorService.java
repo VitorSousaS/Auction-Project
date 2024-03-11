@@ -1,10 +1,7 @@
 package br.com.selecao.locadora.service;
 
 import br.com.selecao.locadora.business.CompradorBO;
-import br.com.selecao.locadora.entity.Comprador;
-
-import java.util.HashMap;
-import java.util.Map;
+import br.com.selecao.locadora.dto.CompradorDTO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,29 +29,23 @@ public class CompradorService {
 		return new ResponseEntity<>(compradorBO.buscarTodos(), HttpStatus.OK);
 	}
 
-	@GetMapping("/{id}")
-	public ResponseEntity<Object> buscarComprador(@PathVariable Long id) {
-		return new ResponseEntity<>(compradorBO.buscarCompradorPorLeilaoId(id), HttpStatus.OK);
+	@GetMapping("/empresa/{empresaId}/leilao/{leilaoId}")
+	public ResponseEntity<Object> buscarComprador(@PathVariable Long empresaId, @PathVariable Long leilaoId) {
+		return new ResponseEntity<>(compradorBO.buscarCompradorPorId(empresaId, leilaoId), HttpStatus.OK);
 	}
 
 	@PostMapping
-	public ResponseEntity<Object> criarComprador(@RequestBody Comprador comprador) {
-		return new ResponseEntity<>(compradorBO.salvarComprador(comprador), HttpStatus.OK);
+	public ResponseEntity<Object> criarComprador(@RequestBody CompradorDTO compradorDTO) {
+		return new ResponseEntity<>(compradorBO.salvarComprador(compradorDTO), HttpStatus.OK);
 	}
 
-	@DeleteMapping("/{id}")
-	public ResponseEntity<Object> deletarCompradorPorLeilaoId(@PathVariable Long id) {
-		compradorBO.deletarCompradorPorLeilaoId(id);
-		
-    Map<String, Long> resposta = new HashMap<>();
-    resposta.put("id", id);
-
-    return new ResponseEntity<>(resposta, HttpStatus.OK);
+	@DeleteMapping("/empresa/{empresaId}/leilao/{leilaoId}")
+	public ResponseEntity<Object> deletarCompradorPorLeilaoId(@PathVariable Long empresaId, @PathVariable Long leilaoId) {
+		return new ResponseEntity<>(compradorBO.deletarCompradorPorLeilaoId(empresaId, leilaoId), HttpStatus.OK);
 	}
 
-	@PutMapping("/{id}")
-	public ResponseEntity<Object> atualizarComprador(@RequestBody Comprador
-	novaComprador, @PathVariable Long id) {		
-		return new ResponseEntity<>(compradorBO.atualizarCompradorPorLeilaoId(novaComprador, id), HttpStatus.OK);
+	@PutMapping("/empresa/{empresaId}/leilao/{leilaoId}")
+	public ResponseEntity<Object> atualizarComprador(@RequestBody CompradorDTO compradorDTO, @PathVariable Long empresaId, @PathVariable Long leilaoId) {
+		return new ResponseEntity<>(compradorBO.atualizarCompradorPorLeilaoId(compradorDTO, empresaId, leilaoId), HttpStatus.OK);
 	};
 }
