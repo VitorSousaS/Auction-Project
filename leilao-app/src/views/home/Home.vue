@@ -1,52 +1,48 @@
 <template>
 	<v-row>
-		<v-col cols="12" md="6">
-			<div class="text-h6 bold">Bem-Vindo a central de informação de Leilão House.</div>
+		<v-col
+			cols="12"
+			md="6"
+		>
+			<TituloPagina
+				titulo="Bem-Vindo a central de informação de Leilão House."
+			/>
 			<div>
-				<v-btn elevation="5" x-large to="/unidades">
-					<v-icon>
-						mdi-domain
-					</v-icon>
-					Unidades
-				</v-btn>
-				<v-btn elevation="5" x-large to="/empresas">
-					<v-icon>
-						mdi-tie
-					</v-icon>
-					Empresas
-				</v-btn>
-				<v-btn elevation="5" x-large to="/leiloes">
-					<v-icon>
-						mdi-curtains
-					</v-icon>
-					Leilões
-				</v-btn>
+				<BotaoIcone
+					xLarge
+					elevation="5"
+					icon="mdi-domain"
+					phrase="Unidades"
+					where="/unidades"
+				/>
+				<BotaoIcone
+					xLarge
+					elevation="5"
+					icon="mdi-tie"
+					phrase="Empresas"
+					where="/empresas"
+				/>
+				<BotaoIcone
+					x-large
+					elevation="5"
+					icon="mdi-curtains"
+					phrase="Leilões"
+					where="/leiloes"
+				/>
 			</div>
 		</v-col>
 	</v-row>
 </template>
 
 <script>
-export default {
-	name: "Home",
-};
+	import BotaoIcone from '../../components/BotaoIcone.vue';
+	import TituloPagina from '../../components/TituloPagina.vue';
+
+	export default {
+		name: 'Home',
+		components: {
+			BotaoIcone,
+			TituloPagina,
+		},
+	};
 </script>
-
-<style scoped>
-/* Adicione estilos personalizados aqui, se necessário */
-.border {
-	border: 1px solid #ccc;
-}
-
-.border-right {
-	border-right: 1px solid #ccc;
-}
-
-.border-bottom {
-	border-bottom: 1px solid #ccc;
-}
-
-.mb-2 {
-	margin-bottom: 2em;
-}
-</style>
