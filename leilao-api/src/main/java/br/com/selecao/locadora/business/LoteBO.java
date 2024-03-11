@@ -8,6 +8,7 @@ import br.com.selecao.locadora.repository.LoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -37,6 +38,10 @@ public class LoteBO {
 				.collect(Collectors.toList());
 	}
 
+	public BigDecimal buscarSomatorioItemLotePorLeilaoId(Long id) {
+		return loteRepository.somaProdutoQuantidadeValorInicialPorLeilaoId(id);
+	}
+	
 	public Lote buscarLotePorIdInterno(Long id) {
 		return loteRepository.findById(id).get();
 	}

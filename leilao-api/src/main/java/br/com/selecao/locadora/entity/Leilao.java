@@ -48,8 +48,4 @@ public class Leilao implements Serializable {
 
 	@Column(name = "updatedat", nullable = false)
 	private LocalDateTime updatedAt;
-
-	public Leilao(Long id) {
-		this.id = id;
-}
 }

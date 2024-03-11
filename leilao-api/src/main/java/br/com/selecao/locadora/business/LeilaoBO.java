@@ -5,6 +5,7 @@ import br.com.selecao.locadora.dto.LeilaoDTO;
 import br.com.selecao.locadora.entity.Leilao;
 import br.com.selecao.locadora.mapper.LeilaoMapper;
 import br.com.selecao.locadora.repository.LeilaoRepository;
+import br.com.selecao.locadora.repository.LoteRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,17 +29,24 @@ public class LeilaoBO {
 	@Autowired
 	private LeilaoMapper leilaoMapper;
 
+	@Autowired
+	private LoteRepository loteRepository;
+
 	public List<LeilaoDTO> buscarTodos() {
 		List<Leilao> leilaos = leilaoRepository.findAll();
-		return leilaos.stream()
+		List<LeilaoDTO> todosLeiloes = leilaos.stream()
 				.map(leilaoMapper::toDTO)
 				.collect(Collectors.toList());
+		todosLeiloes.forEach((item) -> {
+			item.setTotalLeilao(loteRepository.somaProdutoQuantidadeValorInicialPorLeilaoId(item.getId()));
+		});
+		return todosLeiloes;
+
 	}
 
 	public Boolean validarExistencia(Long id) {
 		return leilaoRepository.findById(id).isPresent();
 	}
-
 
 	public Leilao buscarLeilaoPorIdInterno(Long id) {
 		return leilaoRepository.findById(id).get();
@@ -95,7 +103,7 @@ public class LeilaoBO {
 			leilaoExistente.setUpdatedAt(LocalDateTime.now());
 
 			leilaoRepository.save(leilaoExistente);
-			
+
 			return leilaoMapper.toDTO(leilaoExistente);
 
 		} else {
