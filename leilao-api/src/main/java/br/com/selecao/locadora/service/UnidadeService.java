@@ -1,10 +1,7 @@
 package br.com.selecao.locadora.service;
 
 import br.com.selecao.locadora.business.UnidadeBO;
-import br.com.selecao.locadora.entity.Unidade;
-
-import java.util.HashMap;
-import java.util.Map;
+import br.com.selecao.locadora.dto.UnidadeDTO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,23 +35,18 @@ public class UnidadeService {
 	}
 
 	@PostMapping
-	public ResponseEntity<Object> criarUnidade(@RequestBody Unidade unidade) {
-		return new ResponseEntity<>(unidadeBO.salvarUnidade(unidade), HttpStatus.OK);
+	public ResponseEntity<Object> criarUnidade(@RequestBody UnidadeDTO unidadeDTO) {
+		return new ResponseEntity<>(unidadeBO.salvarUnidade(unidadeDTO), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Object> deletarUnidade(@PathVariable Long id) {
-		unidadeBO.deletarUnidade(id);
-		
-    Map<String, Long> resposta = new HashMap<>();
-    resposta.put("id", id);
-
-    return new ResponseEntity<>(resposta, HttpStatus.OK);
+    return new ResponseEntity<>(unidadeBO.deletarUnidade(id), HttpStatus.OK);
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Object> atualizarUnidade(@RequestBody Unidade
-	novaUnidade, @PathVariable Long id) {		
-		return new ResponseEntity<>(unidadeBO.atualizarUnidade(novaUnidade, id), HttpStatus.OK);
+	public ResponseEntity<Object> atualizarUnidade(@RequestBody UnidadeDTO
+	novaUnidadeDTO, @PathVariable Long id) {		
+		return new ResponseEntity<>(unidadeBO.atualizarUnidade(novaUnidadeDTO, id), HttpStatus.OK);
 	};
 }
