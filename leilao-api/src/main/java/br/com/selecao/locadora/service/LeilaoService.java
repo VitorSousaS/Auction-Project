@@ -1,10 +1,7 @@
 package br.com.selecao.locadora.service;
 
 import br.com.selecao.locadora.business.LeilaoBO;
-import br.com.selecao.locadora.entity.Leilao;
-
-import java.util.HashMap;
-import java.util.Map;
+import br.com.selecao.locadora.dto.LeilaoDTO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,23 +35,18 @@ public class LeilaoService {
 	}
 
 	@PostMapping
-	public ResponseEntity<Object> criarLeilao(@RequestBody Leilao leilao) {
-		return new ResponseEntity<>(leilaoBO.salvarLeilao(leilao), HttpStatus.OK);
+	public ResponseEntity<Object> criarLeilao(@RequestBody LeilaoDTO leilaoDTO) {
+		return new ResponseEntity<>(leilaoBO.salvarLeilao(leilaoDTO), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Object> deletarLeilao(@PathVariable Long id) {
-		leilaoBO.deletarLeilao(id);
-		
-    Map<String, Long> resposta = new HashMap<>();
-    resposta.put("id", id);
-
-    return new ResponseEntity<>(resposta, HttpStatus.OK);
+    return new ResponseEntity<>(leilaoBO.deletarLeilao(id), HttpStatus.OK);
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Object> atualizarLeilao(@RequestBody Leilao
-	novaLeilao, @PathVariable Long id) {		
-		return new ResponseEntity<>(leilaoBO.atualizarLeilao(novaLeilao, id), HttpStatus.OK);
+	public ResponseEntity<Object> atualizarLeilao(@RequestBody LeilaoDTO
+	novaLeilaoDTO, @PathVariable Long id) {		
+		return new ResponseEntity<>(leilaoBO.atualizarLeilao(novaLeilaoDTO, id), HttpStatus.OK);
 	};
 }
