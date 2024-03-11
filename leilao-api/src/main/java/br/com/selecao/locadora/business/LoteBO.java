@@ -1,77 +1,103 @@
 package br.com.selecao.locadora.business;
 
 import br.com.selecao.locadora.business.exception.ExessaoConteudoNaoEncontrado;
+import br.com.selecao.locadora.dto.LoteDTO;
 import br.com.selecao.locadora.entity.Lote;
+import br.com.selecao.locadora.mapper.LoteMapper;
 import br.com.selecao.locadora.repository.LoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import javax.transaction.Transactional;
 
 @Service
+@Transactional
 public class LoteBO {
 
 	@Autowired
 	private LoteRepository loteRepository;
 
-	public List<Lote> buscarTodos() {
-		return loteRepository.findAll();
+	@Autowired
+	private LoteMapper loteMapper;
+
+	@Autowired
+	private LeilaoBO leilaoBO;
+
+	public List<LoteDTO> buscarTodos() {
+		List<Lote> lotes = loteRepository.findAll();
+		return lotes.stream()
+				.map(loteMapper::toDTO)
+				.collect(Collectors.toList());
 	}
 
-	public Lote salvarLote(Lote lote) {
+	public Lote buscarLotePorIdInterno(Long id) {
+		return loteRepository.findById(id).get();
+	}
+
+	public LoteDTO buscarLotePorId(Long id) {
+		Optional<Lote> loteOptional = loteRepository.findById(id);
+		return loteOptional.map(loteMapper::toDTO).orElse(null);
+	}
+	
+	public LoteDTO salvarLote(LoteDTO loteDTO) {
+		Lote lote = loteMapper.toEntity(loteDTO);
 		lote.setCreatedAt(LocalDateTime.now());
 		lote.setUpdatedAt(LocalDateTime.now());
-		return loteRepository.save(lote);
+		Lote savedLote = loteRepository.save(lote);
+		return loteMapper.toDTO(savedLote);
 	}
 
-	public Optional<Lote> buscarLotePorId(Long id) {
-		return loteRepository.findById(id);
-	}
-
-	public void deletarLote(Long id) {
+	public Map<String, Long> deletarLote(Long id) {
 		Optional<Lote> loteOptional = loteRepository.findById(id);
 		if (loteOptional.isPresent()) {
 			loteRepository.deleteById(id);
+
+			Map<String, Long> resposta = new HashMap<>();
+			resposta.put("id", id);
+			return resposta; 
 		} else {
 			throw new ExessaoConteudoNaoEncontrado("Lote não encontrada com o ID: " + id);
 		}
 	}
 
-	public Lote atualizarLote(Lote novaLote, Long id) {
+	public LoteDTO atualizarLote(LoteDTO novaLoteDTO, Long id) {
 		Optional<Lote> loteOptional = loteRepository.findById(id);
 
 		if (loteOptional.isPresent()) {
 			Lote loteExistente = loteOptional.get();
 
-			if (novaLote.getNumeroLote() != null) {
-				loteExistente.setNumeroLote(novaLote.getNumeroLote());
+			if (novaLoteDTO.getNumeroLote() != null) {
+				loteExistente.setNumeroLote(novaLoteDTO.getNumeroLote());
 			}
 
-			if (novaLote.getDescricao() != null) {
-				loteExistente.setDescricao(novaLote.getDescricao());
+			if (novaLoteDTO.getDescricao() != null) {
+				loteExistente.setDescricao(novaLoteDTO.getDescricao());
 			}
 
-			if (novaLote.getQuantidade() != null) {
-				loteExistente.setQuantidade(novaLote.getQuantidade());
+			if (novaLoteDTO.getQuantidade() != null) {
+				loteExistente.setQuantidade(novaLoteDTO.getQuantidade());
 			}
 
-			if (novaLote.getValorInicial() != null) {
-				loteExistente.setValorInicial(novaLote.getValorInicial());
+			if (novaLoteDTO.getValorInicial() != null) {
+				loteExistente.setValorInicial(novaLoteDTO.getValorInicial());
 			}
 
-			if (novaLote.getUnidade() != null) {
-				loteExistente.setUnidade(novaLote.getUnidade());
+			if (novaLoteDTO.getLeilaoId() != null) {
+				loteExistente.setLeilao(leilaoBO.buscarLeilaoPorIdInterno(novaLoteDTO.getLeilaoId()));
 			}
 
-			if (novaLote.getLeilao() != null) {
-				loteExistente.setLeilao(novaLote.getLeilao());
-			}
-			
 			loteExistente.setUpdatedAt(LocalDateTime.now());
-			
-			return loteRepository.save(loteExistente);
+
+			loteRepository.save(loteExistente);
+
+			return loteMapper.toDTO(loteExistente);
 
 		} else {
 			throw new ExessaoConteudoNaoEncontrado("Lote não encontrada com o ID: " + id);

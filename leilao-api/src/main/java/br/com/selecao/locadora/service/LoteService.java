@@ -1,10 +1,7 @@
 package br.com.selecao.locadora.service;
 
 import br.com.selecao.locadora.business.LoteBO;
-import br.com.selecao.locadora.entity.Lote;
-
-import java.util.HashMap;
-import java.util.Map;
+import br.com.selecao.locadora.dto.LoteDTO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,23 +35,18 @@ public class LoteService {
 	}
 
 	@PostMapping
-	public ResponseEntity<Object> criarLote(@RequestBody Lote lote) {
-		return new ResponseEntity<>(loteBO.salvarLote(lote), HttpStatus.OK);
+	public ResponseEntity<Object> criarLote(@RequestBody LoteDTO loteDTO) {
+		return new ResponseEntity<>(loteBO.salvarLote(loteDTO), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Object> deletarLote(@PathVariable Long id) {
-		loteBO.deletarLote(id);
-		
-    Map<String, Long> resposta = new HashMap<>();
-    resposta.put("id", id);
-
-    return new ResponseEntity<>(resposta, HttpStatus.OK);
+		return new ResponseEntity<>(loteBO.deletarLote(id), HttpStatus.OK);
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Object> atualizarLote(@RequestBody Lote
-	novaLote, @PathVariable Long id) {		
-		return new ResponseEntity<>(loteBO.atualizarLote(novaLote, id), HttpStatus.OK);
+	public ResponseEntity<Object> atualizarLote(@RequestBody LoteDTO
+	novaLoteDTO, @PathVariable Long id) {		
+		return new ResponseEntity<>(loteBO.atualizarLote(novaLoteDTO, id), HttpStatus.OK);
 	};
 }
