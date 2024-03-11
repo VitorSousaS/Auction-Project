@@ -61,7 +61,7 @@ public class UnidadeBO {
 		}
 	}
 
-	public Unidade atualizarUnidade(UnidadeDTO novaUnidadeDTO, Long id) {
+	public UnidadeDTO atualizarUnidade(UnidadeDTO novaUnidadeDTO, Long id) {
 		Optional<Unidade> unidadeOptional = unidadeRepository.findById(id);
 
 		if (unidadeOptional.isPresent()) {
@@ -72,7 +72,9 @@ public class UnidadeBO {
 			}
 			unidadeExistente.setUpdatedAt(LocalDateTime.now());
 
-			return unidadeRepository.save(unidadeExistente);
+			unidadeRepository.save(unidadeExistente);
+			
+			return unidadeMapper.toDTO(unidadeExistente);
 
 		} else {
 			throw new ExessaoConteudoNaoEncontrado("Unidade não encontrada com o ID: " + id);

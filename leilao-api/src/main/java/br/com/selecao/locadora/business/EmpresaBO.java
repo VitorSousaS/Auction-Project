@@ -27,10 +27,6 @@ public class EmpresaBO {
 	@Autowired
 	private EmpresaMapper empresaMapper;
 
-	// public List<Empresa> buscarTodos() {
-	// return empresaRepository.findAll();
-	// }
-
 	public List<EmpresaDTO> buscarTodos() {
 		List<Empresa> empresas = empresaRepository.findAll();
 		return empresas.stream()
@@ -38,21 +34,18 @@ public class EmpresaBO {
 				.collect(Collectors.toList());
 	}
 
-	// public Optional<Empresa> buscarEmpresaPorId(Long id) {
-	// 	return empresaRepository.findById(id);
-	// }
+	public Boolean validarExistencia(Long id) {
+		return empresaRepository.findById(id).isPresent();
+	}
+
+	public Empresa buscarEmpresaPorIdInterno(Long id) {
+		return empresaRepository.findById(id).get();
+	}
 
 	public EmpresaDTO buscarEmpresaPorId(Long id) {
 		Optional<Empresa> empresaOptional = empresaRepository.findById(id);
 		return empresaOptional.map(empresaMapper::toDTO).orElse(null);
 	}
-
-	// public Empresa salvarEmpresa(Empresa empresa) {
-	// 	empresa.setCreatedAt(LocalDateTime.now());
-	// 	empresa.setUpdatedAt(LocalDateTime.now());
-	// 	System.out.println(empresa);
-	// 	return empresaRepository.save(empresa);
-	// }
 	
 	public EmpresaDTO salvarEmpresa(EmpresaDTO empresaDTO) {
 		Empresa empresa = empresaMapper.toEntity(empresaDTO);
@@ -74,7 +67,7 @@ public class EmpresaBO {
 		}
 	}
 
-	public Empresa atualizarEmpresa(EmpresaDTO novaEmpresaDTO, Long id) {
+	public EmpresaDTO atualizarEmpresa(EmpresaDTO novaEmpresaDTO, Long id) {
 		Optional<Empresa> empresaOptional = empresaRepository.findById(id);
 
 		if (empresaOptional.isPresent()) {
@@ -134,7 +127,9 @@ public class EmpresaBO {
 
 			empresaExistente.setUpdatedAt(LocalDateTime.now());
 
-			return empresaRepository.save(empresaExistente);
+			empresaRepository.save(empresaExistente);
+			
+			return empresaMapper.toDTO(empresaExistente);
 
 		} else {
 			throw new ExessaoConteudoNaoEncontrado("Empresa não encontrada com o ID: " + id);

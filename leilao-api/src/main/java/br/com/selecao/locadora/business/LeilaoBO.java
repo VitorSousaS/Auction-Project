@@ -35,6 +35,11 @@ public class LeilaoBO {
 				.collect(Collectors.toList());
 	}
 
+	public Boolean validarExistencia(Long id) {
+		return leilaoRepository.findById(id).isPresent();
+	}
+
+
 	public Leilao buscarLeilaoPorIdInterno(Long id) {
 		return leilaoRepository.findById(id).get();
 	}
@@ -65,7 +70,7 @@ public class LeilaoBO {
 		}
 	}
 
-	public Leilao atualizarLeilao(LeilaoDTO novaLeilaoDTO, Long id) {
+	public LeilaoDTO atualizarLeilao(LeilaoDTO novaLeilaoDTO, Long id) {
 		Optional<Leilao> leilaoOptional = leilaoRepository.findById(id);
 
 		if (leilaoOptional.isPresent()) {
@@ -89,7 +94,9 @@ public class LeilaoBO {
 
 			leilaoExistente.setUpdatedAt(LocalDateTime.now());
 
-			return leilaoRepository.save(leilaoExistente);
+			leilaoRepository.save(leilaoExistente);
+			
+			return leilaoMapper.toDTO(leilaoExistente);
 
 		} else {
 			throw new ExessaoConteudoNaoEncontrado("Leilao não encontrada com o ID: " + id);

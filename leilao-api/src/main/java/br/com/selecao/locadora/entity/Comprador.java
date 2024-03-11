@@ -25,12 +25,4 @@ public class Comprador implements Serializable {
 	@EmbeddedId
 	@JsonUnwrapped
 	private CompradorId id;
-
-	// public void setEmpresaId(Long empresaId) {
-	// 	this.id.setIdEmpresa(empresaId);
-	// }
-
-	// public Long getByIdEmpresaId() {
-	// 	return this.id.getIdEmpresa();
-	// }
 }
