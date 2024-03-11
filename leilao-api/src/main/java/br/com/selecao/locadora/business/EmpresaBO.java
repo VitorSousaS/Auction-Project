@@ -1,101 +1,135 @@
 package br.com.selecao.locadora.business;
 
 import br.com.selecao.locadora.business.exception.ExessaoConteudoNaoEncontrado;
+import br.com.selecao.locadora.dto.EmpresaDTO;
 import br.com.selecao.locadora.entity.Empresa;
+import br.com.selecao.locadora.mapper.EmpresaMapper;
 import br.com.selecao.locadora.repository.EmpresaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import javax.transaction.Transactional;
 
 @Service
+@Transactional
 public class EmpresaBO {
 
 	@Autowired
 	private EmpresaRepository empresaRepository;
 
-	public List<Empresa> buscarTodos() {
-		return empresaRepository.findAll();
+	@Autowired
+	private EmpresaMapper empresaMapper;
+
+	// public List<Empresa> buscarTodos() {
+	// return empresaRepository.findAll();
+	// }
+
+	public List<EmpresaDTO> buscarTodos() {
+		List<Empresa> empresas = empresaRepository.findAll();
+		return empresas.stream()
+				.map(empresaMapper::toDTO)
+				.collect(Collectors.toList());
 	}
 
-	public Empresa salvarEmpresa(Empresa empresa) {
+	// public Optional<Empresa> buscarEmpresaPorId(Long id) {
+	// 	return empresaRepository.findById(id);
+	// }
+
+	public EmpresaDTO buscarEmpresaPorId(Long id) {
+		Optional<Empresa> empresaOptional = empresaRepository.findById(id);
+		return empresaOptional.map(empresaMapper::toDTO).orElse(null);
+	}
+
+	// public Empresa salvarEmpresa(Empresa empresa) {
+	// 	empresa.setCreatedAt(LocalDateTime.now());
+	// 	empresa.setUpdatedAt(LocalDateTime.now());
+	// 	System.out.println(empresa);
+	// 	return empresaRepository.save(empresa);
+	// }
+	
+	public EmpresaDTO salvarEmpresa(EmpresaDTO empresaDTO) {
+		Empresa empresa = empresaMapper.toEntity(empresaDTO);
 		empresa.setCreatedAt(LocalDateTime.now());
 		empresa.setUpdatedAt(LocalDateTime.now());
-		System.out.println(empresa);
-		return empresaRepository.save(empresa);
+		Empresa savedEmpresa = empresaRepository.save(empresa);
+		return empresaMapper.toDTO(savedEmpresa);
 	}
 
-	public Optional<Empresa> buscarEmpresaPorId(Long id) {
-		return empresaRepository.findById(id);
-	}
-
-	public void deletarEmpresa(Long id) {
+	public Map<String, Long> deletarEmpresa(Long id) {
 		Optional<Empresa> empresaOptional = empresaRepository.findById(id);
 		if (empresaOptional.isPresent()) {
 			empresaRepository.deleteById(id);
+    	Map<String, Long> resposta = new HashMap<>();
+    	resposta.put("id", id);
+			return resposta;
 		} else {
 			throw new ExessaoConteudoNaoEncontrado("Empresa não encontrada com o ID: " + id);
 		}
 	}
 
-	public Empresa atualizarEmpresa(Empresa novaEmpresa, Long id) {
+	public Empresa atualizarEmpresa(EmpresaDTO novaEmpresaDTO, Long id) {
 		Optional<Empresa> empresaOptional = empresaRepository.findById(id);
 
 		if (empresaOptional.isPresent()) {
 			Empresa empresaExistente = empresaOptional.get();
-			
-			if (novaEmpresa.getRazaoSocial() != null) {
-				empresaExistente.setRazaoSocial(novaEmpresa.getRazaoSocial());
+
+			if (novaEmpresaDTO.getRazaoSocial() != null) {
+				empresaExistente.setRazaoSocial(novaEmpresaDTO.getRazaoSocial());
 			}
-			
-			if (novaEmpresa.getCnpj() != null) {
-				empresaExistente.setCnpj(novaEmpresa.getCnpj());
+
+			if (novaEmpresaDTO.getCnpj() != null) {
+				empresaExistente.setCnpj(novaEmpresaDTO.getCnpj());
 			}
-			
-			if (novaEmpresa.getLogradouro() != null) {
-				empresaExistente.setLogradouro(novaEmpresa.getLogradouro());
+
+			if (novaEmpresaDTO.getLogradouro() != null) {
+				empresaExistente.setLogradouro(novaEmpresaDTO.getLogradouro());
 			}
-			
-			if (novaEmpresa.getMunicipio() != null) {
-				empresaExistente.setMunicipio(novaEmpresa.getMunicipio());
+
+			if (novaEmpresaDTO.getMunicipio() != null) {
+				empresaExistente.setMunicipio(novaEmpresaDTO.getMunicipio());
 			}
-		
-			if (novaEmpresa.getNumero() != null) {
-				empresaExistente.setNumero(novaEmpresa.getNumero());
+
+			if (novaEmpresaDTO.getNumero() != null) {
+				empresaExistente.setNumero(novaEmpresaDTO.getNumero());
 			}
-		
-			if (novaEmpresa.getComplemento() != null) {
-				empresaExistente.setComplemento(novaEmpresa.getComplemento());
+
+			if (novaEmpresaDTO.getComplemento() != null) {
+				empresaExistente.setComplemento(novaEmpresaDTO.getComplemento());
 			}
-		
-			if (novaEmpresa.getBairro() != null) {
-				empresaExistente.setBairro(novaEmpresa.getBairro());
+
+			if (novaEmpresaDTO.getBairro() != null) {
+				empresaExistente.setBairro(novaEmpresaDTO.getBairro());
 			}
-		
-			if (novaEmpresa.getCep() != null) {
-				empresaExistente.setCep(novaEmpresa.getCep());
+
+			if (novaEmpresaDTO.getCep() != null) {
+				empresaExistente.setCep(novaEmpresaDTO.getCep());
 			}
-		
-			if (novaEmpresa.getTelefone() != null) {
-				empresaExistente.setTelefone(novaEmpresa.getTelefone());
+
+			if (novaEmpresaDTO.getTelefone() != null) {
+				empresaExistente.setTelefone(novaEmpresaDTO.getTelefone());
 			}
-		
-			if (novaEmpresa.getEmail() != null) {
-				empresaExistente.setEmail(novaEmpresa.getEmail());
+
+			if (novaEmpresaDTO.getEmail() != null) {
+				empresaExistente.setEmail(novaEmpresaDTO.getEmail());
 			}
-		
-			if (novaEmpresa.getSite() != null) {
-				empresaExistente.setSite(novaEmpresa.getSite());
+
+			if (novaEmpresaDTO.getSite() != null) {
+				empresaExistente.setSite(novaEmpresaDTO.getSite());
 			}
-		
-			if (novaEmpresa.getUsuario() != null) {
-				empresaExistente.setUsuario(novaEmpresa.getUsuario());
+
+			if (novaEmpresaDTO.getUsuario() != null) {
+				empresaExistente.setUsuario(novaEmpresaDTO.getUsuario());
 			}
-		
-			if (novaEmpresa.getSenha() != null) {
-				empresaExistente.setSenha(novaEmpresa.getSenha());
+
+			if (novaEmpresaDTO.getSenha() != null) {
+				empresaExistente.setSenha(novaEmpresaDTO.getSenha());
 			}
 
 			empresaExistente.setUpdatedAt(LocalDateTime.now());
@@ -105,4 +139,5 @@ public class EmpresaBO {
 		} else {
 			throw new ExessaoConteudoNaoEncontrado("Empresa não encontrada com o ID: " + id);
 		}
-	}}
+	}
+}

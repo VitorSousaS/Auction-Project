@@ -1,7 +1,7 @@
 package br.com.selecao.locadora.service;
 
 import br.com.selecao.locadora.business.EmpresaBO;
-import br.com.selecao.locadora.entity.Empresa;
+import br.com.selecao.locadora.dto.EmpresaDTO;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,23 +38,18 @@ public class EmpresaService {
 	}
 
 	@PostMapping
-	public ResponseEntity<Object> criarEmpresa(@RequestBody Empresa empresa) {
-		return new ResponseEntity<>(empresaBO.salvarEmpresa(empresa), HttpStatus.OK);
+	public ResponseEntity<Object> criarEmpresa(@RequestBody EmpresaDTO empresaDTO) {
+		return new ResponseEntity<>(empresaBO.salvarEmpresa(empresaDTO), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Object> deletarEmpresa(@PathVariable Long id) {
-		empresaBO.deletarEmpresa(id);
-		
-    Map<String, Long> resposta = new HashMap<>();
-    resposta.put("id", id);
-
-    return new ResponseEntity<>(resposta, HttpStatus.OK);
+    return new ResponseEntity<>(empresaBO.deletarEmpresa(id), HttpStatus.OK);
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Object> atualizarEmpresa(@RequestBody Empresa
-	novaEmpresa, @PathVariable Long id) {		
-		return new ResponseEntity<>(empresaBO.atualizarEmpresa(novaEmpresa, id), HttpStatus.OK);
+	public ResponseEntity<Object> atualizarEmpresa(@RequestBody EmpresaDTO
+	novaEmpresaDTO, @PathVariable Long id) {		
+		return new ResponseEntity<>(empresaBO.atualizarEmpresa(novaEmpresaDTO, id), HttpStatus.OK);
 	};
 }
