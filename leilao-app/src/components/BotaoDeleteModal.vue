@@ -12,9 +12,7 @@
 			max-width="500"
 		>
 			<v-card>
-				<v-card-title class="text-h6">
-					Confirma a ação de deletar:
-				</v-card-title>
+				<v-card-title class="text-h6"> {{ alarmtext }}: </v-card-title>
 				<v-card-title class="text-h6 bold">
 					{{ item.razaoSocial }} ({{ item.id }})
 				</v-card-title>
@@ -48,7 +46,7 @@
 
 	export default {
 		name: 'BotaoDeleteModal',
-		props: ['item', 'fetchData'],
+		props: ['item', 'fetchData', 'alarmtext'],
 		data() {
 			return {
 				dialog: false,

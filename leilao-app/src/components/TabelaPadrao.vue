@@ -9,7 +9,7 @@
 					<td>
 						<div class="button-container">
 							<v-btn :to="url + '/' + props.item.id" icon><v-icon>mdi-pencil</v-icon></v-btn>
-							<BotaoDeleteModal :item="props.item" :fetchData="fetchData"></BotaoDeleteModal>
+							<BotaoDeleteModal :alarmtext="alarmtext" :item="props.item" :fetchData="fetchData"></BotaoDeleteModal>
 						</div>
 					</td>
 				</template>
@@ -28,7 +28,7 @@ import BotaoIcone from '../components/BotaoIcone.vue';
 
 export default {
 	name: 'TabelaPadrao',
-	props: ['headers', 'url', 'acaoDisabled'],
+	props: ['headers', 'url', 'acaoDisabled', 'alarmtext'],
 	data() {
 		return {
 			responseData: [],

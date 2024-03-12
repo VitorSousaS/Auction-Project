@@ -10,6 +10,7 @@
 		<TabelaPadrao
 			:headers="headers"
 			url="empresa"
+			alarmtext="Todos os registros vinculados a está empresa serão deletados"
 		/>
 	</div>
 </template>
@@ -27,7 +28,7 @@
 				headers: [
 					{ text: 'CNPJ', value: 'cnpj' },
 					{ text: 'Razão Social', value: 'razaoSocial' },
-					{ text: 'Telefone ', value: 'telefone ' },
+					{ text: 'Telefone ', value: 'telefone' },
 					{ text: 'E-mail', value: 'email' },
 					{ text: 'Ações', value: 'actions' },
 				],
