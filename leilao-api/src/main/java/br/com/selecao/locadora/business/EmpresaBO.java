@@ -4,6 +4,7 @@ import br.com.selecao.locadora.business.exception.ExessaoConteudoNaoEncontrado;
 import br.com.selecao.locadora.dto.EmpresaDTO;
 import br.com.selecao.locadora.entity.Empresa;
 import br.com.selecao.locadora.mapper.EmpresaMapper;
+import br.com.selecao.locadora.repository.CompradorRepository;
 import br.com.selecao.locadora.repository.EmpresaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,9 @@ public class EmpresaBO {
 
 	@Autowired
 	private EmpresaMapper empresaMapper;
+
+	@Autowired
+	private CompradorRepository compradorRepository;
 
 	public List<EmpresaDTO> buscarTodos() {
 		List<Empresa> empresas = empresaRepository.findAll();
@@ -58,6 +62,9 @@ public class EmpresaBO {
 	public Map<String, Long> deletarEmpresa(Long id) {
 		Optional<Empresa> empresaOptional = empresaRepository.findById(id);
 		if (empresaOptional.isPresent()) {
+			compradorRepository.deletaCompradoresComEmpresaId(id);
+			// pesquisar por compradores vinculas a empresaId
+			// deletar eles
 			empresaRepository.deleteById(id);
     	Map<String, Long> resposta = new HashMap<>();
     	resposta.put("id", id);

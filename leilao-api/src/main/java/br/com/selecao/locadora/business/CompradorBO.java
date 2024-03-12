@@ -58,6 +58,10 @@ public class CompradorBO {
 		return compradorMapper.toDTO(savedComprador);
 	}
 
+	public void deltarCompradoresPorEmpresaId(Long empresaId) {
+		compradorRepository.deletaCompradoresComEmpresaId(empresaId);
+	}
+
 	public Map<String, Long> deletarCompradorPorLeilaoId(Long empresaId, Long leilaoId) {
 		CompradorId compradorId = CompradorId.builder()
 		.empresa(empresaBO.buscarEmpresaPorIdInterno(empresaId))
