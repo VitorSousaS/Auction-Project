@@ -3,8 +3,8 @@
 		<p class="topic-header">
 			{{
 				this.$route.params.id > 0
-					? `Editar Unidade ${empresaForm.razaoSocial}`
-					: 'Cadastrar Unidade'
+					? `Editar Empresa ${empresaForm.razaoSocial}`
+					: 'Cadastrar Empresa'
 			}}
 		</p>
 		<v-form
