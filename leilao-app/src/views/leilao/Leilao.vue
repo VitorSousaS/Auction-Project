@@ -1,33 +1,60 @@
 <template>
-	<div>
-		<TituloPagina titulo="Dados dos Leilões:" />
-		<TabelaPadrao
-			:headers="headers"
-			url="leilao"
-			acaoDisabled="true"
-		/>
-	</div>
+	<v-data-table
+		:headers="headers"
+		:items="leilaoData"
+		sort-by="id"
+		class="elevation-1"
+	>
+		<template v-slot:item.inicioPrevisto="{ item }">
+			{{ leilaoDataTimeFormat(item.inicioPrevisto) }}
+		</template>
+		<template v-slot:item.totalLeilao="{ item }">
+			R$ {{ leilaoTotalLeilaoFormat(item.totalLeilao) }}
+		</template>
+		<template v-slot:top>
+			<v-toolbar flat>
+				<v-toolbar-title>Leilão</v-toolbar-title>
+				<v-divider
+					class="mx-4"
+					inset
+					vertical
+				></v-divider>
+			</v-toolbar>
+		</template>
+	</v-data-table>
 </template>
 
 <script>
-	import TituloPagina from '../../components/TituloPagina.vue';
-	import TabelaPadrao from '../../components/TabelaPadrao.vue';
+	import { mapState } from 'vuex';
 
 	export default {
 		name: 'Leilao',
-		data() {
-			return {
-				dialog: false,
-				headers: [
-					{ text: 'Vendedor', value: 'vendedor' },
-					{ text: 'Somatório base ($)', value: 'totalLeilao' },
-					{ text: 'Data de Início', value: 'inicioPrevisto' },
-				],
-			};
+		data: () => ({
+			headers: [
+				{ text: 'Vendedor', value: 'vendedor' },
+				{ text: 'Inicio Previsto', value: 'inicioPrevisto' },
+				{ text: 'Total do Leilão', value: 'totalLeilao' },
+			],
+		}),
+		methods: {
+			async fetchData() {
+				await this.$store.dispatch('fetchData', 'leilao');
+			},
+			leilaoDataTimeFormat(leilaoTime) {
+				return new Date(leilaoTime).toLocaleString('pt-BR');
+			},
+			leilaoTotalLeilaoFormat(moneyValue) {
+				return moneyValue.toFixed(2).toLocaleString('pt-BR', {
+					tyle: 'currency',
+					cusrrency: 'BRL',
+				});
+			},
 		},
-		components: {
-			TituloPagina,
-			TabelaPadrao
-		}
+		computed: {
+			...mapState(['leilaoData']),
+		},
+		created() {
+			this.fetchData();
+		},
 	};
 </script>

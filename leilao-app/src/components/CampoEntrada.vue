@@ -1,8 +1,5 @@
 <template>
-	<v-col
-		cols="12"
-		:sm="columnSize"
-	>
+	<v-col>
 		<v-text-field
 			v-model="internalValue"
 			:rules="rules"
