@@ -1,13 +1,14 @@
-# AZ Avaliação
+# Auction Project
 
-Projeto para avaliação e seleção de candidatos a vaga de programador full stack da empresa AZ Tecnologia em Gestão. 
-Nesta avaliação você deverá criar uma aplicação completa utilizando os frameworks e banco de dados abaixo:
+A project made for a selection process based on a basic auction system.
+Involving the development with Vue for the frontend and Spring Boot for the backend.
+It was a learning experience in one week to do our best with no knowledge of the tools. The requirements for each step and the structure are described below in Portuguese (PT-BR).
 
 **Client**: Vue
  
 **Server**: Spring Boot. 
 
-**Banco de dados**: PostgreSQL
+**Data Base**: PostgreSQL
 
 ## Exercício 1
 Crie um script para a criação do banco de dados (DDL) contendo todas as tables, columns, constraints (primary key, foreing key e unique) e sequence.
