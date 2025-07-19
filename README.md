@@ -1,8 +1,7 @@
-# Auction Project
+## 🧾 Project Summary – Auction System
 
-A project made for a selection process based on a basic auction system.
-Involving the development with Vue for the frontend and Spring Boot for the backend.
-It was a learning experience in one week to do our best with no knowledge of the tools. The requirements for each step and the structure are described below in Portuguese (PT-BR).
+This project was developed as part of a selection process, with the goal of building a basic **auction system** using **Vue** for the frontend and **Spring Boot** for the backend. The database used was **PostgreSQL**.  
+The entire development was done in one week, focusing on learning new tools and delivering a fully functional system.
 
 **Client**: Vue
  
@@ -10,103 +9,127 @@ It was a learning experience in one week to do our best with no knowledge of the
 
 **Data Base**: PostgreSQL
 
-## Exercício 1
-Crie um script para a criação do banco de dados (DDL) contendo todas as tables, columns, constraints (primary key, foreing key e unique) e sequence.
+---
 
-Não esqueça de observar as colunas NOT NULL que estão marcadas com asterisco no diagrama e os campos únicos, sublinhados.
+### ✅ Step 1 – Database Structure (DDL)
+Started by creating the database schema using a DDL script that included all tables, columns, and constraints (primary keys, foreign keys, and unique constraints), according to the provided diagram.  
+All `NOT NULL` constraints and unique fields were correctly handled.
 
 ![alt Banco de dados][database]
 
-## Exercício 2
-Prepare script (DML) com uma massa de dados inicial para permitir que a aplicação seja testada. Adicione pelo menos 10 registros em cada tabela.
+---
 
-## Exercício 3
-Prepare os serviços rest responsáveis pelas operações CRUD (Create, Read, Update e Delete) de **todas as tabelas**.
-Utilize o seguinte padrão:
+### ✅ Step 2 – Initial Data Population (DML)
+Created a DML script to populate the database with test data.  
+At least 10 records were inserted into each table to simulate real-world scenarios and allow for complete testing of the system.
 
-- GET /nomedatabela: Recupera todos os registros da tabela.
-- GET /nomedatabela/:id: Recupera somente o registro que seja igual o :id informado.
-- POST /nomedatabela: Insere um novo registro na tabela com os dados enviados no body da mensagem.
-- PUT /nomedatabela/:id: Altera o registro que seja igual o :id informado e com os dados recebidos no body da mensagem.
-- DELETE /nomedatabela/:id: Remove da tabela o registro com o :id informado.
+---
 
-Exemplos:
+### ✅ Step 3 – RESTful API Implementation
+Developed full CRUD (Create, Read, Update, Delete) endpoints for **all entities** in the system using REST principles:
 
-- GET /unidade/1
-- POST /leiao
-- PUT /comprador/2
+- `GET /entity` – Retrieve all records
+- `GET /entity/:id` – Retrieve a specific record
+- `POST /entity` – Create a new record
+- `PUT /entity/:id` – Update an existing record
+- `DELETE /entity/:id` – Delete a record
 
-### Padrões
-
-#### Front-End 
-
-* **Aplicação Cliente**: Front-End Vue. Separe bem o código em componentes.
-
-#### Back-End
-
-* **Controladores REST**: pacote service - endpoints dos serviços rest (POST, PUT, UPDATE e DELETE)
-* **Camada de serviço**: pacote business - implementação das regras de negócio
-* **Camada de acesso a dados (Repository)**: pacote repository
-* **Camada de domínio**: pacote entity
+The backend followed a layered architecture:
+- **Controllers**: Route and handle requests
+- **Services**: Business logic layer
+- **Repositories**: Data access with Spring Data JPA
+- **Entities**: Domain models
 
 ![alt_arquitetura][arquitetura]
 
+---
 
-## Exercício 4
+### ✅ Step 4 – Front-End Routing and Navigation
+Configured routing with Vue Router.  
+The main screen (`App.vue`) included a navigation menu with links to:
 
-Crie a tela principal do sistema no arquivo App.vue. Esta tela deve ter um menu para navegar de uma página para outra. 
-O menu deve ter links com as opções: unidades, empresas e leilões. 
-Cada página deve ter uma view separada: views/unidade/Unidades.vue, views/empresa/Empresas.vue e views/Leilao/leiloes.vue, respectivamente. 
-Ao clicar no link, o sistema deve mudar a url para #/nomedatela e o conteúdo interno da section root deve ser trocado pelo html da 
-página selecionada.
+- `#/unidades` → Units
+- `#/empresas` → Companies
+- `#/leiloes` → Auctions
 
-- HTML da página inicial: App.vue
-- URL da página unidades: http://server/#/unidades
-- URL da página leiloes: http://server/#/leiloes
-- URL da página empresas: http://server/#/empresas
+Each view was created in its respective folder inside `views/`.
 
-## Exercício 5
-Crie uma tela de consulta e edição simples para o cadastro de Unidade. 
-Uma grid editável capaz de realizar todas as operações CRUD na tabela de Unidade (v-data-table). Siga os padrões:
+---
 
-- URL da página:            http://server/#/unidades
-- URL dos serviços restful: http://server/unidades (GET | POST | PUT | DELETE)
-- HTML:                     views/unidade/Unidades.vue
-- COMPONENTES:              components/
+### ✅ Step 5 – CRUD UI for Units
+Created a fully functional CRUD interface for the Unit entity using a `v-data-table`.  
+All operations (create, edit, delete) could be performed directly from the UI and connected to the REST API.
 
-## Exercício 6
-Crie uma tela de consulta parametrizada para cadastro de Empresas. 
-Uma grid somente leitura (v-data-table) contendo os campos: cnpj, razaoSocial, telefone e email.
+- Page URL:                http://server/#/unidades  
+- RESTful services URL:    http://server/unidades (GET | POST | PUT | DELETE)  
+- HTML file:               views/unidade/Unidades.vue  
+- COMPONENTS folder:       components/  
 
-- URL da página:            http://server/#/empresas
-- URL dos serviços restful: http://server/empresas (GET)
-- HTML:                     views/empresa/Empresas.vue
-- COMPONENTES:              components/
+---
 
-## Exercício 7
-Crie uma tela de consulta parametrizada para cadastro de Leilões. 
-Uma grid somente leitura (v-data-table) contendo os campos: razaoSocial do vendedor, inicioPrevisto, total do leilão (soma dos totais individuais de cada lote (quantidade * valorInicial)).
+### ✅ Step 6 – Read-Only View for Companies
+Developed a simple read-only view for Companies using a `v-data-table`.  
+Displayed fields included: `CNPJ`, `Business Name`, `Phone`, and `Email`.
 
-- URL da página:            http://server/#/leiloes
-- URL dos serviços restful: http://server/leiloes (GET)
-- HTML:                     views/leilao/Leiloes.vue
-- COMPONENTES:              components/
+- Page URL:               http://server/#/empresas
+- RESTful services URL:   http://server/empresas (GET)
+- HTML:                   views/empresa/Empresas.vue
+- COMPONENTS:             components/
 
-## Exercício 8
-Crie a tela de inclusão e alteração do cadastro de empresas.
-Observe que esta tela deve validar os campos obrigatórios especificados no modelo de banco de dados. 
-Deve validar também as máscaras e os formatos de número, email, url e tamanho máximo do texto. Quanto mais completo melhor.
-Não esqueça de criar os links para editar e excluir uma empresa na tela de consulta feita no exercício 6. 
-O link de editar deve chamar a tela de cadastro usando a seguinte url #/leilao/:id
+---
 
-- URL da página INCLUIR:    http://server/#/empresa
-- URL da página EDITAR:     http://server/#/empresa/:id
-- URL dos serviços restful: http://server/empresa (GET | POST | PUT | DELETE)
-- HTML:                     views/empresa/Empresa.vue
-- COMPONENTES:              components/
+### ✅ Step 7 – Read-Only View for Auctions
+Built a read-only view to list Auctions with the following fields:
+
+- Seller’s business name
+- Expected start date
+- Total auction value (calculated as the sum of item quantity × initial value)
+
+- Page URL:               http://server/#/leiloes
+- RESTful services URL:   http://server/leiloes (GET)
+- HTML:                   views/leilao/Leiloes.vue
+- COMPONENTS:             components/
 
 
-## Teste tudo muito bem e boa sorte.
+---
+
+### ✅ Step 8 – Company Form with Validation
+Implemented a form to **create** and **edit** company records, with field validation including:
+
+- Required fields
+- Input masks for CNPJ, phone, and email
+- Field length and format checks
+
+Added links in the company list for editing and deleting records, using routes like `#/empresa/:id`.
+
+- Page URL INCLUDE:        http://server/#/empresa
+- Page URL EDIT:           http://server/#/empresa/:id
+- RESTful services URL:    http://server/empresa (GET | POST | PUT | DELETE)
+- HTML:                    views/empresa/Empresa.vue
+- COMPONENTS:              components/
+
+
+---
+
+### ✅ Final Tests and Adjustments
+Manually tested the application from end to end to ensure all routes, views, and services worked as expected.
+
+---
+
+💡 This project was a valuable learning experience, especially for quickly adapting to unfamiliar tools and delivering a complete full-stack solution within a limited timeframe.
 
 [database]: leilao-api/src/main/resources/sql/database.png
 [arquitetura]: leilao-api/src/main/resources/arquitetura.png
+
+
+
+
+
+
+
+
+
+
+
+
+
